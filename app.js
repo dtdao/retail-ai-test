@@ -18,20 +18,24 @@ app.get("/users/:user_id", (req, res, next) => {
 
     const id = req.params.user_id
     const user = data.find(user => user.user_id === id)
+
+    console.log(user)
+    if (!user) {
+        return res.status(404).json({
+            "message": "No user found"
+        })
+    }
+
     if (user.password !== password) {
         return res.status(401).json({message: "Authentication Faild"})
     }
     if (user) {
-        res.status(200).json({
+        return res.status(200).json({
             "message": "User details by user_id",
             "user": user
         })
     }
-    if (!user) {
-        res.status(404).json({
-            "message": "No user found"
-        })
-    }
+
 });
 
 app.post("/signup", (req, res) => {
