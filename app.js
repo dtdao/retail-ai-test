@@ -18,8 +18,7 @@ app.get("/users/:user_id", (req, res, next) => {
 
     const id = req.params.user_id
     const user = data.find(user => user.user_id === id)
-
-    console.log(user)
+    
     if (!user) {
         return res.status(404).json({
             "message": "No user found"
@@ -131,7 +130,13 @@ app.patch("/users/:user_id", (req, res) => {
         "comment": !comment ? "" : comment
     }
 
-
+    const userIndex = data.findIndex(user => user.user_id === user_id)
+    if(comment){
+        data[userIndex].comment = comment
+    }
+    if(nickname) {
+        data[userIndex].nickname = nickname
+    }
     return res.status(200).json({
         "message": "Account successfully created",
         "recipe": [pathData],
